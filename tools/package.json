@@ -1,0 +1,10 @@
+{
+  "name": "chess-checks",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Test suites and audits for the two chess pages. Not part of the site.",
+  "devDependencies": {
+    "jsdom": "^25.0.0",
+    "playwright": "^1.47.0"
+  }
+}
