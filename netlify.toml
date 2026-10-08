@@ -1,0 +1,21 @@
+# Netlify build settings for this site.
+#
+# Both pages are single self-contained HTML files, so there is nothing to
+# build: Netlify just publishes the repository root exactly as it is.
+[build]
+  publish = "."
+  command = ""
+
+# The page *is* the whole app, so a new version has to be picked up on the
+# next reload rather than served from a phone's cache. The pages work
+# offline once loaded, so this costs nothing when the network is slow.
+[[headers]]
+  for = "/*.html"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "no-referrer"
