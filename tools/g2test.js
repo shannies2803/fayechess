@@ -47,7 +47,12 @@ const wait=ms=>new Promise(r=>setTimeout(r,ms));
   ev(d,"document.getElementById('backupBtn').click()");
   ok('the backup button reports success',
      ev(d,"document.getElementById('backupBtn').textContent")==='Saved a file');
-  const text = captured ? await captured.text() : '';
+  /* jsdom's Blob has no .text(), so read it the way the browser would */
+  const text = captured ? await new Promise((res, rej) => {
+    const fr = new d.window.FileReader();
+    fr.onload = () => res(fr.result); fr.onerror = () => rej(fr.error);
+    fr.readAsText(captured);
+  }) : '';
   const parsed = text ? JSON.parse(text) : null;
   ok('the backup holds every player', parsed && parsed.players.length===2, parsed && parsed.players.length);
   ok('the backup holds the first player’s stars',

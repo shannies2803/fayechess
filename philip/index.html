@@ -599,7 +599,7 @@ hr.rule{border:0;border-top:1px solid var(--line);margin:26px 0}
       <button class="btn btn-sm" id="expBtn" style="flex:1">Back up</button>
       <button class="btn btn-sm" id="impBtn" style="flex:1">Restore</button>
     </div>
-    <input type="file" id="impFile" accept="application/json,.json" class="sr">
+    <input type="file" id="impFile" accept="application/json,.json" class="sr" tabindex="-1" aria-label="Restore progress from a backup file">
     <button class="btn btn-sm" id="resetBtn" style="margin-top:8px;width:100%">Reset progress</button>
   </div>
 </nav>
@@ -1161,7 +1161,7 @@ hr.rule{border:0;border-top:1px solid var(--line);margin:26px 0}
         </div>
         <div class="sheet-cols"><div>#</div><div>White</div><div>Black</div></div>
         <div class="sheet-body" id="plSheet"></div>
-        <div class="sheet-foot"><button class="btn btn-sm" id="plCopy">Copy the game</button></div>
+        <div class="sheet-foot"><button class="btn btn-sm" id="plCopySheet">Copy the game</button></div>
       </div>
     </div>
   </div>
@@ -1279,7 +1279,7 @@ hr.rule{border:0;border-top:1px solid var(--line);margin:26px 0}
         <button class="btn" id="impFileBtn">Choose file</button>
         <button class="btn" id="impClear">Remove imported</button>
       </div>
-      <input type="file" id="impFile" accept=".csv,text/csv" style="display:none">
+      <input type="file" id="impCsvFile" accept=".csv,text/csv" style="display:none">
       <p class="small muted" id="impNote" style="margin:10px 0 0"></p>
     </div>
   </div>
@@ -11053,8 +11053,8 @@ $('#pzUnsolved').onclick = ()=>{
 $('#pzNext').onclick = ()=>pzStep(1);
 $('#pzPrev').onclick = ()=>pzStep(-1);
 $('#impRun').onclick = ()=>importText($('#impText').value || '');
-$('#impFileBtn').onclick = ()=>$('#impFile').click();
-$('#impFile').onchange = ev=>{
+$('#impFileBtn').onclick = ()=>$('#impCsvFile').click();
+$('#impCsvFile').onchange = ev=>{
   const f = ev.target.files && ev.target.files[0];
   if (!f) return;
   $('#impNote').textContent = 'Reading ' + f.name + '…';
@@ -11600,6 +11600,7 @@ $('#plCopy').onclick = ()=>{
     ()=>toast('Could not copy — select the moves instead')
   );
 };
+$('#plCopySheet').onclick = ()=>$('#plCopy').onclick();
 
 /* ============ tournament day ============ */
 $('#rulesList').innerHTML = RULES.map((r,i)=>

@@ -28,19 +28,20 @@ signal.
 ## Checks
 
 `tools/` holds the test suites and audits. They are not part of the site and
-are not needed to deploy it.
+are not needed to deploy it. GitHub runs all of them on every push and pull
+request (`.github/workflows/checks.yml`); a red cross there means something broke.
 
 ```bash
 cd tools
-npm install          # jsdom, and playwright only if you want the visual audits
-node gtest.js        # and g2test, g3test, g4test, newtest, revtest,
-                     # looktest, clocktest, writetest, storetest, pptest,
-                     # picktest, protest
-node audit_new.js    # structural
-node audit_expert.js # chess content is correct
-node audit_gm.js     # content is worth learning
-node audit_child.js  # readable and tappable for a 7-year-old (needs playwright)
-node audit_pro.js    # Philip's page
+npm install
+npm test                          # the 14 fast suites (jsdom)
+npx playwright install chromium   # once, for the real-browser test
+npm run test:all                  # the 14 suites + smoke.js on a 375 px phone screen
+node audit_new.js                 # structural
+node audit_expert.js              # chess content is correct
+node audit_gm.js                  # content is worth learning
+node audit_child.js               # readable and tappable for a 7-year-old (needs playwright)
+node audit_pro.js                 # Philip's page
 ```
 
 Every suite should finish with `0 failed`, and every audit with no gaps.

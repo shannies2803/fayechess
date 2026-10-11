@@ -3,6 +3,11 @@
   "private": true,
   "version": "1.0.0",
   "description": "Test suites and audits for the two chess pages. Not part of the site.",
+  "scripts": {
+    "test": "node run-all.js",
+    "test:all": "node run-all.js --browser",
+    "smoke": "node smoke.js"
+  },
   "devDependencies": {
     "jsdom": "^25.0.0",
     "playwright": "^1.47.0"
