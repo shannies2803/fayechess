@@ -1,0 +1,24 @@
+# Runs every test suite on each push and pull request.
+# A red cross on GitHub means something broke; Netlify still deploys main,
+# so check this before merging a pull request.
+name: Checks
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    defaults:
+      run:
+        working-directory: tools
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm install --no-audit --no-fund
+      - run: npx playwright install --with-deps chromium
+      - run: npm run test:all
